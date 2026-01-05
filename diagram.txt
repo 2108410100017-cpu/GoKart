@@ -1,0 +1,60 @@
+          ┌──────────────┐
+          │   USER / APP │
+          │ (API Client) │
+          └──────┬───────┘
+                 │
+                 │  POST /predict
+                 ▼
+        ┌───────────────────────┐
+        │   FASTAPI PREDICT API │
+        │                       │
+        │  • Latest Model Load  │
+        │  • Prediction (0/1)   │
+        │  • Log Request        │
+        └─────────┬─────────────┘
+                  │
+                  │ logs
+                  ▼
+        ┌───────────────────────┐
+        │   live_data.jsonl     │
+        │ (inputs + prediction) │
+        └─────────┬─────────────┘
+                  │
+                  │ POST /cycle/simulate-ground-truth
+                  ▼
+        ┌─────────────────────────────┐
+        │ Ground Truth Simulation     │
+        │                             │
+        │ • Uses temp + time          │
+        │ • Generates actual result   │
+        └─────────┬───────────────────┘
+                  │
+                  ▼
+        ┌───────────────────────┐
+        │ processed_data.jsonl  │
+        │ (prediction + truth)  │
+        └─────────┬─────────────┘
+                  │
+                  │ POST /cycle/create-dataset
+                  ▼
+        ┌───────────────────────┐
+        │ latest_dataset.csv    │
+        │ (training data)       │
+        └─────────┬─────────────┘
+                  │
+                  │ POST /cycle/retrain
+                  ▼
+        ┌─────────────────────────────┐
+        │ Model Retraining            │
+        │                             │
+        │ • Train new model           │
+        │ • Compare accuracy          │
+        │ • Save if better            │
+        └─────────┬───────────────────┘
+                  │
+                  ▼
+        ┌───────────────────────┐
+        │ model_v1.pkl          │
+        │ model_v2.pkl          │
+        │ model_v3.pkl ...      │
+        └───────────────────────┘
