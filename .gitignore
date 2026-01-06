@@ -1,0 +1,14 @@
+# Add the virtual environment folder to .gitignore
+echo "airflow_venv311/" >> .gitignore
+
+# Add other common junk files and folders
+echo "__pycache__/" >> .gitignore
+echo "*.pyc" >> .gitignore
+echo "*.db" >> .gitignore
+echo "python3" >> .gitignore
+
+# Add the other folders that are likely not part of your source code
+echo "Advanced/" >> .gitignore
+echo "App/" >> .gitignore
+echo "Apps/" >> .gitignore
+echo "source/" >> .gitignore
