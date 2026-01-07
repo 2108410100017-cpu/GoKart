@@ -12,3 +12,5 @@ echo "Advanced/" >> .gitignore
 echo "App/" >> .gitignore
 echo "Apps/" >> .gitignore
 echo "source/" >> .gitignore
+
+airflow_venv311/

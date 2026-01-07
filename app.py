@@ -6,6 +6,10 @@ from datetime import datetime
 import pandas as pd
 import numpy as np
 import joblib
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+from fastapi import Request
+
 
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
@@ -25,6 +29,7 @@ app = FastAPI(
     description="End-to-end ML feedback loop with MLflow",
     version="1.0"
 )
+templates = Jinja2Templates(directory="templates")
 
 # -------------------------------------------------
 # MLflow Config
@@ -252,3 +257,20 @@ def root():
             "POST /cycle/run-full": "Run full pipeline"
         }
     }
+
+
+@app.get("/ui", response_class=HTMLResponse)
+def ui(request: Request):
+    try:
+        _, version, _ = load_latest_model()
+        model_version = f"v{version}"
+    except:
+        model_version = "No model yet"
+
+    return templates.TemplateResponse(
+        "index.html",
+        {
+            "request": request,
+            "model_version": model_version
+        }
+    )

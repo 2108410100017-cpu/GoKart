@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lemonade Stand MLOps</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f8;
+            padding: 40px;
+        }
+        .card {
+            max-width: 420px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h2 {
+            margin-bottom: 10px;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+        }
+        button {
+            background: #4CAF50;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button.secondary {
+            background: #2196F3;
+        }
+        .result {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        .version {
+            font-size: 12px;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>🍋 Smart Lemonade Stand</h2>
+    <div class="version">Current Model: {{ model_version }}</div>
+
+    <input id="temp" type="number" placeholder="Temperature (°C)">
+    <input id="time" type="number" placeholder="Time of Day (0–23)">
+
+    <button onclick="predict()">Predict Demand</button>
+
+    <div class="result" id="output"></div>
+
+    <hr style="margin:20px 0">
+
+    <button class="secondary" onclick="runCycle()">
+        Run Full Retraining Cycle
+    </button>
+
+    <div class="result" id="cycleOutput"></div>
+</div>
+
+<script>
+async function predict() {
+    const temp = document.getElementById("temp").value;
+    const time = document.getElementById("time").value;
+
+    const res = await fetch("/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            temperature: parseInt(temp),
+            time_of_day: parseInt(time)
+        })
+    });
+
+    const data = await res.json();
+    document.getElementById("output").innerText =
+        "Prediction: " + data.prediction +
+        " | Model: " + data.model_version;
+}
+
+async function runCycle() {
+    document.getElementById("cycleOutput").innerText = "Running...";
+    const res = await fetch("/cycle/run-full", { method: "POST" });
+    const data = await res.json();
+    document.getElementById("cycleOutput").innerText =
+        "Cycle complete. Check MLflow.";
+}
+</script>
+
+</body>
+</html>

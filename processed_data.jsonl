@@ -820,3 +820,5 @@
 {"timestamp": "2026-01-05T09:42:14.980658", "model_version": "v1", "input_features": {"temperature": 34, "time_of_day": 1}, "prediction": 0, "request_id": "2e1daf40-5a93-4623-95b3-28e431ca25fa", "ground_truth": 0}
 {"timestamp": "2026-01-05T09:42:15.003644", "model_version": "v1", "input_features": {"temperature": 40, "time_of_day": 17}, "prediction": 1, "request_id": "f30db3a8-519d-4a7b-9cef-4cb4231c5fcf", "ground_truth": 1}
 {"timestamp": "2026-01-05T09:42:15.025331", "model_version": "v1", "input_features": {"temperature": 34, "time_of_day": 13}, "prediction": 1, "request_id": "999f8e0a-224a-4c50-b4b3-e2a736219cf2", "ground_truth": 1}
+{"timestamp": "2026-01-06T09:40:56.705551", "model_version": "v2", "input_features": {"temperature": 32, "time_of_day": 15}, "prediction": 1, "request_id": "be48db72-80fa-4846-a553-65c3235cf906", "ground_truth": 1}
+{"timestamp": "2026-01-07T11:13:56.189774", "model_version": "v2", "input_features": {"temperature": 45, "time_of_day": 1}, "prediction": 0, "request_id": "09335f55-4786-4d0c-8bc4-6b5585fc7550", "ground_truth": 0}

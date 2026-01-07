@@ -1,0 +1,111 @@
+# 🚀 Smart Lemonade Stand – End-to-End MLOps Pipeline
+
+**FastAPI · Airflow · MLflow · Scikit-Learn · WSL**
+
+> An industry-style MLOps project that demonstrates a complete ML feedback loop — from online inference to automated retraining and model promotion — orchestrated using Apache Airflow.
+
+---
+
+## 📌 Project Overview
+
+This project simulates a real-world MLOps lifecycle where:
+
+* A model serves live predictions
+* Requests are logged
+* Ground truth arrives later
+* New datasets are created
+* Models are retrained and evaluated
+* Only better models are promoted
+* Everything is automated via Airflow
+
+---
+
+## 🧠 Problem Statement
+
+Predict whether a customer will buy lemonade based on:
+
+* 🌡️ Temperature
+* 🕒 Time of day
+
+Focus: maintaining model performance over time, not one-off training.
+
+---
+
+## 🏗️ Architecture (High Level)
+
+Client → FastAPI → Logs → Ground Truth → Dataset → Retrain → MLflow → Airflow
+
+---
+
+## ⚙️ Tech Stack
+
+| Layer               | Technology                  |
+| ------------------- | --------------------------- |
+| API                 | FastAPI                     |
+| ML                  | Scikit-Learn (RandomForest) |
+| Orchestration       | Apache Airflow              |
+| Experiment Tracking | MLflow                      |
+| OS                  | WSL (Ubuntu)                |
+| Language            | Python 3.11                 |
+
+---
+
+## 🔄 MLOps Workflow
+
+1. **Online Inference** (`POST /predict`)
+2. **Ground Truth Simulation** (`POST /cycle/simulate-ground-truth`)
+3. **Dataset Creation** (`POST /cycle/create-dataset`)
+4. **Model Retraining & Evaluation** (`POST /cycle/retrain`)
+5. **Full Pipeline Trigger** (`POST /cycle/run-full`)
+
+---
+
+## 🛠️ Airflow DAG
+
+DAG: `lemonade_ml_cycle_bash`
+
+Steps:
+
+* simulate_ground_truth
+* create_latest_dataset
+* retrain_model
+
+---
+
+## 📊 MLflow
+
+Tracks:
+
+* Parameters
+* Accuracy metrics
+* Model versions
+* Promotion decisions
+
+Registered model: `LemonadeDemandModel`
+
+---
+
+## ▶️ Running Locally
+
+```bash
+uvicorn app:app --host 0.0.0.0 --port 8000
+```
+
+```bash
+airflow standalone
+```
+
+---
+
+## 🎯 Why This Matters
+
+* Demonstrates production ML thinking
+* Shows real MLOps lifecycle
+* No notebooks, fully operational
+
+---
+
+## 👤 Author
+
+**Anurag Tiwari**
+Aspiring MLOps / ML Engineer

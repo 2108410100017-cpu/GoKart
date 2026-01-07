@@ -3,3 +3,92 @@ curl -X POST http://127.0.0.1:8000/predict -H "Content-Type: application/json" -
 
 curl -X POST http://127.0.0.1:8000/cycle/run-full
 
+/////////////////////////////////////////////////////////////
+
+activate terminal
+cd ~/goKart
+python3.11 -m venv airflow_venv311
+
+source airflow_venv311/bin/activate
+
+
+===========================XXXXXXXXXXXXXXXXXXXXXXXXXXX======================================
+
+//////////////////// using airflow  ///////////////////////////////////////////////
+
+
+export AIRFLOW_VERSION=2.7.2
+export PYTHON_VERSION=3.11
+export CONSTRAINT_URL="https://raw.githubusercontent.com/apache/airflow/constraints-${AIRFLOW_VERSION}/constraints-${PYTHON_VERSION}.txt"
+pip install "apache-airflow==${AIRFLOW_VERSION}" --constraint "${CONSTRAINT_URL}"
+
+
+airflow db init
+airflow users create --username admin --firstname Admin --lastname User --role Admin --email admin@example.com
+airflow webserver --port 8080
+   ================================xxxxxxxxxxxxxxxxxxxxxxxxxxxx================================
+
+   run in another tab
+
+   airflow scheduler
+
+
+
+
+
+//////////////////////////
+#!/bin/bash
+# Airflow Setup Script for WSL Ubuntu
+# Python 3.11 + Airflow 2.7.2
+# Run: bash setup_airflow.sh
+
+# 1️⃣ Update and install prerequisites
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y software-properties-common curl git
+
+# 2️⃣ Add deadsnakes PPA for Python 3.11
+sudo add-apt-repository -y ppa:deadsnakes/ppa
+sudo apt update
+sudo apt install -y python3.11 python3.11-venv python3.11-distutils python3.11-dev build-essential
+
+# 3️⃣ Create project directory in WSL home
+PROJECT_DIR=~/goKart
+mkdir -p $PROJECT_DIR
+cd $PROJECT_DIR
+
+# 4️⃣ Create Python 3.11 virtual environment
+python3.11 -m venv airflow_venv311
+
+# 5️⃣ Activate virtual environment
+source airflow_venv311/bin/activate
+
+# 6️⃣ Upgrade pip, setuptools, wheel
+python -m pip install --upgrade pip setuptools wheel
+
+# 7️⃣ Install Airflow with proper constraints
+AIRFLOW_VERSION=2.7.2
+PYTHON_VERSION=3.11
+CONSTRAINT_URL="https://raw.githubusercontent.com/apache/airflow/constraints-${AIRFLOW_VERSION}/constraints-${PYTHON_VERSION}.txt"
+
+pip install "apache-airflow==${AIRFLOW_VERSION}" --constraint "${CONSTRAINT_URL}"
+
+# 8️⃣ Set AIRFLOW_HOME
+export AIRFLOW_HOME=$PROJECT_DIR/airflow
+mkdir -p $AIRFLOW_HOME
+
+# 9️⃣ Initialize Airflow database
+airflow db init
+
+# 🔟 Create admin user
+airflow users create \
+    --username admin \
+    --password admin \
+    --firstname Admin \
+    --lastname User \
+    --role Admin \
+    --email admin@example.com
+
+echo "✅ Airflow setup complete!"
+echo "To run Airflow Scheduler: source airflow_venv311/bin/activate && airflow scheduler"
+echo "To run Airflow Webserver: source airflow_venv311/bin/activate && airflow webserver --port 8080"
+echo "Airflow UI: http://localhost:8080"
